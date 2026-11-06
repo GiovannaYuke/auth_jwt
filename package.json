@@ -11,6 +11,7 @@
   "author": "GigiYukê",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^18.0.9",
     "express": "^5.3.0",
     "jsonwebtoken": "^9.0.3"
   }
