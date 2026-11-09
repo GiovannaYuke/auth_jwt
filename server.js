@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import usuarios from "./usuarios.js";
+import "dotenv/config";
 
 const app = express();
 const port = process.env.port;
