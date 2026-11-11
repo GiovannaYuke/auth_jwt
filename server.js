@@ -16,7 +16,7 @@ app.post("/login", (req, res) => {
         const token = jwt.sign ({ id: usuario.id, username: usuario.username, role: usuario.role }, SECRET_KEY, { expiresIn: "1h"});
         res.status(201).json({message: token })
     } else {
-        res.status(401).json({message: "Usuário ou senha inválidos"})
+        res.status(401).json({message: "Usuário ou senha inválidos"}) // 401 = Não autorizado
     }
 
 });
@@ -27,7 +27,7 @@ const authenticateToken = (req, res, next) => {
     const token = req.headers["authorization"];
 
     if(!token){
-        return res.status(403).json({ message: "Token não fornecido"});
+        return res.status(403).json({ message: "Token não fornecido"}); // 403 = Proibido
     }
 
     jwt.verify(token, SECRET_KEY, (err, user) => {
@@ -48,6 +48,13 @@ app.get("/admin", authenticateToken, (req, res) => {
         return res.status(403).json({message: "Acesso negado"});
     }
     res.status(200).json({message: "Área do administrador"});
+});
+
+app.get("/owner", authenticateToken, (req, res) => {
+    if (req.user.role !== "owner") {
+        return res.status(403).json({message: "Acesso negado"})
+    }
+    res.status(200).json({message: "Acesso do Owner concedido"})
 });
 
 app.listen(PORT, () => {
